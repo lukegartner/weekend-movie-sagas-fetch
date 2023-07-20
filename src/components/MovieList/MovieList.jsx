@@ -2,6 +2,10 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./MovieList.css";
 import { useHistory } from "react-router-dom";
+import Typography from "@mui/material/Typography";
+import ImageList from "@mui/material/ImageList";
+import ImageListItem from "@mui/material/ImageListItem";
+import ImageListItemBar from "@mui/material/ImageListItemBar";
 
 function MovieList() {
   const dispatch = useDispatch();
@@ -14,23 +18,32 @@ function MovieList() {
 
   return (
     <main>
-      <h1>MovieList</h1>
-      <section className="movies">
+      <Typography variant="h1">Movie List</Typography>
+      <ImageList sx={{ width: 650, height: 725, mx: "auto" }} cols={3}>
         {movies.map((movie) => {
           return (
-            <div
+            <ImageListItem
               key={movie.id}
               onClick={() => {
                 dispatch({ type: "FETCH_DETAILS", payload: movie });
                 history.push(`/details/${movie.id}`);
               }}
             >
-              <h3>{movie.title}</h3>
-              <img src={movie.poster} alt={movie.title} />
-            </div>
+              <img
+                src={`${movie.poster}?w=248&fit=crop&auto=format`}
+                srcSet={`${movie.poster}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                alt={movie.title}
+                loading="lazy"
+              />
+              <ImageListItemBar
+                title={movie.title}
+                position="below"
+                sx={{ bgcolor: "info.light" }}
+              />
+            </ImageListItem>
           );
         })}
-      </section>
+      </ImageList>
     </main>
   );
 }
