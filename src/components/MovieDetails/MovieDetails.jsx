@@ -1,5 +1,6 @@
-import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory, useParams } from "react-router-dom";
+import { useEffect } from "react";
 
 // MUI
 import Typography from "@mui/material/Typography";
@@ -11,8 +12,13 @@ import Container from "@mui/material/Container";
 
 const MovieDetails = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const { details } = useSelector((store) => store);
-  console.log(details);
+  const { id } = useParams();
+
+  useEffect(() => {
+    dispatch({ type: "FETCH_DETAILS", payload: id });
+  }, []);
   return (
     <div>
       <Button

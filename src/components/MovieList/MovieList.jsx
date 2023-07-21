@@ -25,7 +25,6 @@ function MovieList() {
             <ImageListItem
               key={movie.id}
               onClick={() => {
-                dispatch({ type: "FETCH_DETAILS", payload: movie });
                 history.push(`/details/${movie.id}`);
               }}
             >

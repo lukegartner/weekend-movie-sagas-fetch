@@ -62,7 +62,7 @@ function* fetchAllMovies() {
 function* fetchMovieDetails(action) {
   // get single movie details from DB
   try {
-    const response = yield fetch(`/api/movie/details/${action.payload.id}`);
+    const response = yield fetch(`/api/movie/details/${action.payload}`);
     if (!response.ok) {
       throw new Error("Network response was not OK");
     }
