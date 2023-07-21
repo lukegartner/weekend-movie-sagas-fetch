@@ -8,8 +8,8 @@ import MovieInput from "../MovieInput/MovieInput";
 function App() {
   return (
     <div className="App">
-      <Header />
       <Router>
+        <Header />
         <Route path="/" exact>
           <MovieList />
         </Route>
