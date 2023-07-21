@@ -60,7 +60,9 @@ const Header = () => {
         </Toolbar>
       </AppBar>
       {isMenu && (
-        <Paper sx={{ width: 320, maxWidth: "100%", position: "absolute" }}>
+        <Paper
+          sx={{ width: 320, maxWidth: "100%", position: "absolute", zIndex: 1 }}
+        >
           <MenuList>
             <MenuItem
               onClick={() => {

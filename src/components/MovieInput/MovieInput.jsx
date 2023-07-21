@@ -7,8 +7,10 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import Container from "@mui/material/Container";
 import { Button, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const MovieInput = () => {
   const [title, setTitle] = useState("");
@@ -17,6 +19,7 @@ const MovieInput = () => {
   const [poster, setPoster] = useState("");
   const [genre_id, setGenre_id] = useState("");
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     dispatch({ type: "FETCH_GENRES" });
@@ -75,18 +78,39 @@ const MovieInput = () => {
           ))}
         </Select>
       </FormControl>
-      <Button
-        variant="contained"
-        sx={{ width: "45%", mx: "auto", mt: 1, mb: 2 }}
-        onClick={() => {
-          dispatch({
-            type: "POST_MOVIE",
-            payload: { title, poster, description, genre_id },
-          });
-        }}
-      >
-        Add Movie
-      </Button>
+      <Container>
+        <Button
+          variant="outlined"
+          color="error"
+          sx={{
+            width: "34%",
+            mx: 1,
+            mt: 1,
+            mb: 2,
+          }}
+          onClick={() => {
+            history.push("/");
+          }}
+        >
+          Cancel
+        </Button>
+        <Button
+          variant="contained"
+          sx={{ width: "34%", mx: 1, mt: 1, mb: 2 }}
+          onClick={() => {
+            if (title && poster && description && genre_id) {
+              dispatch({
+                type: "POST_MOVIE",
+                payload: { title, poster, description, genre_id },
+              });
+            } else {
+              alert("Please Complete All Fields");
+            }
+          }}
+        >
+          Add Movie
+        </Button>
+      </Container>
     </Card>
   );
 };
