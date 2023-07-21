@@ -24,7 +24,7 @@ const genres = (state = [], action) => {
       return state;
   }
 };
-// Used to store the movie genres
+// Used to store the single movie details
 const details = (state = { genre_names: [] }, action) => {
   switch (action.type) {
     case "SET_DETAILS":
@@ -73,10 +73,25 @@ function* fetchMovieDetails(action) {
     alert("Something went wrong.");
   }
 }
+function* fetchAllGenres(action) {
+  // get single movie details from DB
+  try {
+    const response = yield fetch(`/api/genre`);
+    if (!response.ok) {
+      throw new Error("Network response was not OK");
+    }
+    const genres = yield response.json();
+    yield put({ type: "SET_GENRES", payload: genres });
+  } catch {
+    console.log("get genres error");
+    alert("Something went wrong.");
+  }
+}
 
 function* watcherSaga() {
   yield takeEvery("FETCH_MOVIES", fetchAllMovies);
   yield takeEvery("FETCH_DETAILS", fetchMovieDetails);
+  yield takeEvery("FETCH_GENRES", fetchAllGenres);
 }
 
 sagaMiddleware.run(watcherSaga);

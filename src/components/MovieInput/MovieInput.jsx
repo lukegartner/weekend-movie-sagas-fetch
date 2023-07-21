@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // MUI
 import TextField from "@mui/material/TextField";
@@ -8,13 +8,19 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { Button, Typography } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
 
 const MovieInput = () => {
   const [title, setTitle] = useState("");
+  const { genres } = useSelector((store) => store);
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [genre, setGenre] = useState("");
-  const handleChange = () => {};
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch({ type: "FETCH_GENRES" });
+  }, []);
   return (
     <Card
       sx={{
@@ -62,9 +68,11 @@ const MovieInput = () => {
           label="Genre"
           onChange={(event) => setGenre(event.target.value)}
         >
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          {genres.map((genre) => (
+            <MenuItem key={genre.id} value={genre.name}>
+              {genre.name}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
       <Button

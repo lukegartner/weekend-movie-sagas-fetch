@@ -1,10 +1,17 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const pool = require('../modules/pool')
+const pool = require("../modules/pool");
 
-router.get('/', (req, res) => {
+router.get("/", (req, res) => {
   // Add query to get all genres
-  res.sendStatus(500)
+  const queryText = `SELECT * FROM genres;`;
+  pool
+    .query(queryText)
+    .then((response) => res.send(response.rows))
+    .catch((err) => {
+      console.log("ERROR: Get all genres", err);
+      res.sendStatus(500);
+    });
 });
 
 module.exports = router;
