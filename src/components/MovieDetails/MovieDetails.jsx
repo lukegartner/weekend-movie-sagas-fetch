@@ -31,11 +31,19 @@ const MovieDetails = () => {
       <Container
         sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
       >
-        <List>
-          <Typography variant="h6">Genres</Typography>
+        <Typography variant="h6" sx={{ mt: 1 }}>
+          Genres
+        </Typography>
+        <List
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            padding: 0,
+          }}
+        >
           {details.genre_names.map((genre) => (
             <ListItem key={genre}>
-              <ListItemText primary={genre} />
+              <ListItemText primary={genre} align="center" />
             </ListItem>
           ))}
         </List>
