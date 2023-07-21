@@ -87,11 +87,30 @@ function* fetchAllGenres(action) {
     alert("Something went wrong.");
   }
 }
+function* postMovie(action) {
+  // get single movie details from DB
+  try {
+    const response = yield fetch(`/api/movie`, {
+      method: "POST",
+      body: JSON.stringify(action.payload),
+      headers: { "Content-Type": "application/json" },
+    });
+    if (!response.ok) {
+      throw new Error("Network response was not OK");
+    }
+
+    yield put({ type: "FETCH_GENRES", payload: genres });
+  } catch {
+    console.log("get genres error");
+    alert("Something went wrong.");
+  }
+}
 
 function* watcherSaga() {
   yield takeEvery("FETCH_MOVIES", fetchAllMovies);
   yield takeEvery("FETCH_DETAILS", fetchMovieDetails);
   yield takeEvery("FETCH_GENRES", fetchAllGenres);
+  yield takeEvery("POST_MOVIE", postMovie);
 }
 
 sagaMiddleware.run(watcherSaga);

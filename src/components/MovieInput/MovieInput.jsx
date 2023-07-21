@@ -14,8 +14,8 @@ const MovieInput = () => {
   const [title, setTitle] = useState("");
   const { genres } = useSelector((store) => store);
   const [description, setDescription] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
-  const [genre, setGenre] = useState("");
+  const [poster, setPoster] = useState("");
+  const [genre_id, setGenre_id] = useState("");
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -45,8 +45,8 @@ const MovieInput = () => {
       <TextField
         variant="outlined"
         label="Image URL"
-        value={imageUrl}
-        onChange={(event) => setImageURL(event.target.value)}
+        value={poster}
+        onChange={(event) => setPoster(event.target.value)}
         sx={{ width: "65%", mx: "auto", my: 1 }}
       ></TextField>
       <TextField
@@ -64,12 +64,12 @@ const MovieInput = () => {
         <Select
           labelId="genre-select"
           id="demo-simple-select"
-          value={genre}
+          value={genre_id}
           label="Genre"
-          onChange={(event) => setGenre(event.target.value)}
+          onChange={(event) => setGenre_id(event.target.value)}
         >
           {genres.map((genre) => (
-            <MenuItem key={genre.id} value={genre.name}>
+            <MenuItem key={genre.id} value={genre.id}>
               {genre.name}
             </MenuItem>
           ))}
@@ -78,6 +78,12 @@ const MovieInput = () => {
       <Button
         variant="contained"
         sx={{ width: "45%", mx: "auto", mt: 1, mb: 2 }}
+        onClick={() => {
+          dispatch({
+            type: "POST_MOVIE",
+            payload: { title, poster, description, genre_id },
+          });
+        }}
       >
         Add Movie
       </Button>

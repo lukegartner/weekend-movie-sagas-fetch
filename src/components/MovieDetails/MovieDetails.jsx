@@ -24,7 +24,11 @@ const MovieDetails = () => {
       <Typography variant="h2" sx={{ mt: 2 }}>
         {details.title}
       </Typography>
-      <img src={details.poster} alt={details.title} />
+      <img
+        src={details.poster}
+        alt={details.title}
+        style={{ width: "16rem" }}
+      />
       <Typography sx={{ width: 650, mx: "auto" }}>
         {details.description}
       </Typography>
