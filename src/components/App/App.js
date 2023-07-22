@@ -4,6 +4,7 @@ import MovieList from "../MovieList/MovieList";
 import MovieDetails from "../MovieDetails/MovieDetails";
 import Header from "./Header";
 import MovieInput from "../MovieInput/MovieInput";
+import MovieEdit from "../MovieInput/MovieEdit";
 
 function App() {
   return (
@@ -18,6 +19,9 @@ function App() {
         </Route>
         <Route path="/add-movie">
           <MovieInput />
+        </Route>
+        <Route path="/edit-movie/:id">
+          <MovieEdit />
         </Route>
 
         {/* Details page */}

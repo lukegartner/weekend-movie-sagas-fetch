@@ -79,4 +79,50 @@ router.get("/details/:id", (req, res) => {
     });
 });
 
+// Edits Movie
+router.put("/:id", (req, res) => {
+  console.log(req.body);
+  // RETURNING "id" will give us back the id of the created movie
+  const editMovieQuery = `
+  UPDATE "movies" 
+     SET title = $1,
+         poster = $2,
+         description = $3
+  WHERE "id" = $4;`;
+
+  // FIRST QUERY MAKES MOVIE
+  pool
+    .query(editMovieQuery, [
+      req.body.title,
+      req.body.poster,
+      req.body.description,
+      req.params.id,
+    ])
+    .then((result) => {
+      // Now handle the genre reference
+      const editMovieGenreQuery = `
+      INSERT INTO "movies_genres" ("movie_id", "genre_id")
+      VALUES  ($1, $2);
+      `;
+      // SECOND QUERY ADDS GENRE FOR THAT NEW MOVIE
+      pool
+        .query(editMovieGenreQuery, [req.params.id, req.body.genre_id])
+        .then((result) => {
+          //Now that both are done, send back success!
+          res.sendStatus(201);
+        })
+        .catch((err) => {
+          // catch for second query
+          console.log(err);
+          res.sendStatus(500);
+        });
+
+      // Catch for first query
+    })
+    .catch((err) => {
+      console.log(err);
+      res.sendStatus(500);
+    });
+});
+
 module.exports = router;

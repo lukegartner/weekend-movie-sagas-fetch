@@ -27,6 +27,12 @@ const MovieDetails = () => {
       >
         Back to List
       </Button>
+      <Button
+        style={{ position: "absolute", right: "1rem", top: "4rem" }}
+        onClick={() => history.push(`/edit-movie/${id}`)}
+      >
+        Edit
+      </Button>
       <Typography variant="h2" sx={{ mt: 2 }}>
         {details.title}
       </Typography>

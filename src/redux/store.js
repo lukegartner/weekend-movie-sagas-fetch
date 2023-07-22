@@ -25,7 +25,7 @@ const genres = (state = [], action) => {
   }
 };
 // Used to store the single movie details
-const details = (state = { genre_names: [] }, action) => {
+const details = (state = { genre_names: [], genre_ids: [] }, action) => {
   switch (action.type) {
     case "SET_DETAILS":
       return action.payload;
@@ -90,8 +90,26 @@ function* fetchAllGenres(action) {
 function* postMovie(action) {
   // get single movie details from DB
   try {
-    const response = yield fetch(`/api/movie`, {
+    const response = yield fetch(`/api/movie/$`, {
       method: "POST",
+      body: JSON.stringify(action.payload),
+      headers: { "Content-Type": "application/json" },
+    });
+    if (!response.ok) {
+      throw new Error("Network response was not OK");
+    }
+
+    yield put({ type: "FETCH_MOVIES" });
+  } catch {
+    console.log("post movie error");
+    alert("Something went wrong.");
+  }
+}
+function* editMovie(action) {
+  // get single movie details from DB
+  try {
+    const response = yield fetch(`/api/movie/${action.payload.id}`, {
+      method: "PUT",
       body: JSON.stringify(action.payload),
       headers: { "Content-Type": "application/json" },
     });
@@ -101,7 +119,7 @@ function* postMovie(action) {
 
     yield put({ type: "FETCH_GENRES", payload: genres });
   } catch {
-    console.log("get genres error");
+    console.log("edit movive error");
     alert("Something went wrong.");
   }
 }
@@ -111,6 +129,7 @@ function* watcherSaga() {
   yield takeEvery("FETCH_DETAILS", fetchMovieDetails);
   yield takeEvery("FETCH_GENRES", fetchAllGenres);
   yield takeEvery("POST_MOVIE", postMovie);
+  yield takeEvery("EDIT_MOVIE", editMovie);
 }
 
 sagaMiddleware.run(watcherSaga);
